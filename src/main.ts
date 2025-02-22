@@ -1,11 +1,16 @@
 import dotenv from 'dotenv'
-import { Client, Events, GatewayIntentBits } from 'discord.js'
+import { Collection, Events, GatewayIntentBits } from 'discord.js'
+
+import { CustomClient } from './utils/classes'
 
 dotenv.config()
 
 const { TOKEN } = process.env
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] })
+const client: CustomClient = new CustomClient({
+  intents: [GatewayIntentBits.Guilds]
+})
+client.commands = new Collection()
 
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`)
