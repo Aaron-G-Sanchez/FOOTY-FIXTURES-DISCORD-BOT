@@ -5,6 +5,7 @@
     "typescript": "^5.7.3"
   },
   "scripts": {
-    "dev": "bun run src/main.ts"
+    "dev": "bun run src/main.ts",
+    "deploy-commands": "bun run src/setup/deploy-commands.ts"
   }
 }
