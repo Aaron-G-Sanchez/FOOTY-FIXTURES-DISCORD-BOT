@@ -14,6 +14,7 @@ const client: CustomClient = new CustomClient({
 })
 client.commands = new Collection()
 
+// Add commands to the client.
 const folderPath = join(__dirname, 'commands')
 const commandsFiles = readdirSync(folderPath).filter((file) =>
   file.endsWith('.ts')
@@ -33,39 +34,19 @@ for (const file of commandsFiles) {
   }
 }
 
-client.once(Events.ClientReady, (readyClient) => {
-  console.log(`Ready! Logged in as ${readyClient.user.tag}`)
-})
+// Add event handling.
+const eventPath = join(__dirname, 'events')
+const eventFiles = readdirSync(eventPath).filter((file) => file.endsWith('.ts'))
+
+for (const file of eventFiles) {
+  const filePath = join(eventPath, file)
+  const { event } = require(filePath)
+
+  if (event.once) {
+    client.once(event.name, (...args) => event.execute(...args))
+  } else {
+    client.on(event.name, (...args) => event.execute(...args))
+  }
+}
 
 client.login(TOKEN)
-
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return
-  console.log(interaction)
-
-  const command = (interaction.client as CustomClient).commands.get(
-    interaction.commandName
-  )
-
-  if (!command) {
-    console.log(`No command matching ${interaction.commandName} was found.`)
-    return
-  }
-
-  try {
-    await command.execute(interaction)
-  } catch (err) {
-    console.error(err)
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({
-        content: 'There was an error while executing this command',
-        flags: MessageFlags.Ephemeral
-      })
-    } else {
-      await interaction.reply({
-        content: 'There was an error while exectuing this command!',
-        flags: MessageFlags.Ephemeral
-      })
-    }
-  }
-})
