@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { readdirSync } from 'fs'
 import { join } from 'path'
-import { Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js'
+import { Collection, GatewayIntentBits } from 'discord.js'
 
 import { CustomClient } from './utils/classes'
 
@@ -16,8 +16,8 @@ client.commands = new Collection()
 
 // Add commands to the client.
 const folderPath = join(__dirname, 'commands')
-const commandsFiles = readdirSync(folderPath).filter((file) =>
-  file.endsWith('.ts')
+const commandsFiles = readdirSync(folderPath).filter(
+  (file) => file.endsWith('.ts') || file.endsWith('.js')
 )
 
 for (const file of commandsFiles) {
@@ -36,7 +36,10 @@ for (const file of commandsFiles) {
 
 // Add event handling.
 const eventPath = join(__dirname, 'events')
-const eventFiles = readdirSync(eventPath).filter((file) => file.endsWith('.ts'))
+const eventFiles = readdirSync(eventPath).filter(
+  (file) => file.endsWith('.ts') || file.endsWith('.js')
+)
+console.log(eventFiles)
 
 for (const file of eventFiles) {
   const filePath = join(eventPath, file)

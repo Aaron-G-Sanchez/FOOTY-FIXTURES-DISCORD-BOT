@@ -34,7 +34,7 @@ const rest = new REST().setToken(TOKEN!)
 const deployCommands = async () => {
   try {
     console.log(
-      `Started refreshing ${commands.length} applicaiton (/) commands...`
+      `Started refreshing ${commands.length} application (/) commands...`
     )
 
     await rest.put(Routes.applicationGuildCommands(CLIENT_ID!, GUILD_ID!), {
@@ -42,11 +42,15 @@ const deployCommands = async () => {
     })
 
     console.log(
-      `Succesfully reloaded ${commands.length} application (/) commands.`
+      `Successfully reloaded ${commands.length} application (/) commands.`
     )
   } catch (err) {
     console.error(err)
   }
 }
 
-await deployCommands()
+const deploy = async () => {
+  await deployCommands()
+}
+
+deploy()

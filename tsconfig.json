@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
-    "module": "es2022",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "lib": ["es2022"],
     "strict": true,
     "target": "es2022",
-    "outDir": "dist"
+    "outDir": "dist",
+    "rootDir": "./src",
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "package.json"]
 }
